@@ -50,12 +50,7 @@ class DeleteMediaTest extends IslandoraFunctionalTestBase {
   public function setUp(): void {
     parent::setUp();
 
-    if (version_compare(\Drupal::VERSION, '10.1', '>=')) {
-      $permissions = ['create media', 'delete any media', 'delete any file'];
-    }
-    else {
-      $permissions = ['create media', 'delete any media'];
-    }
+    $permissions = ['create media', 'delete any media', 'delete any file'];
 
     // Create a test user.
     $this->account = $this->createUser($permissions);
@@ -93,7 +88,7 @@ class DeleteMediaTest extends IslandoraFunctionalTestBase {
     $this->assertSession()->pageTextContains('Are you sure you want to delete this media and associated files?');
     $page->pressButton('Delete');
     // Should assert that a media and file were deleted.
-    $this->assertSession()->pageTextContains('Deleted 2 items.');
+    $this->assertSession()->pageTextContains("The media with the id $mid has been deleted");
 
     // Attempt to reload the entities.
     // Both media and file should be gone.
